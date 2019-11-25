@@ -16,3 +16,4 @@ export const fetchCities = (dispatch) => {
         .catch(err => dispatch(getError(err)))
         /* return {type: GET_FETCHED_CITIES, payload: } */
 }
+

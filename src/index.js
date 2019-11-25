@@ -9,12 +9,13 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import rootreducer from "./store/reducer/rootreducer";
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
+// ReactDOM.render(<App />, document.getElementById('root'));
+                          // redux store //
 const store = createStore(
     rootreducer,
     compose(applyMiddleware(thunk))
     );
+    
     ReactDOM.render(
     <Provider store={store}>
       <App />

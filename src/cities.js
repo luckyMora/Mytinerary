@@ -1,50 +1,80 @@
 import React, { Component } from 'react'
+import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
+import {fetchCities} from "./store/actions/cityActions"
+import { connect } from "react-redux";
+import Col from 'react-bootstrap/Col'
 
-import Carousel from 'react-bootstrap/Carousel'
+ class cities extends Component {
+  state = {value: "",
+            dataSearch:[]}
+  componentDidMount(){
+    this.props.fetchCities()
+    }  
+searchFunction(event){
+  console.log()
+  this.setState({value: event.target.value},()=>{console.log(this.state.value)})
+}
 
-export default class cities extends Component {
-    render() {
+filterFetch = () => {
+  fetch(`http://localhost:5000/cities/all`)
+.then(response => response.json())
+    .then(data => this.setState({datasearch: data},()=>console.log(this.state.dataSearch)))}
+
+  render() {
+        
+    if (this.state.cities) console.log(this.state.cities)
+    
         return (
             <div>
-                    <button>Search</button><input  type="text" class="searchbar" placeholder="Search" ></input>
-<Carousel>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src="holder.js/800x400?text=First slide&bg=373940"
-      alt="First slide"
-    />
-    <Carousel.Caption>
-      <h3>First slide label</h3>
-      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src="holder.js/800x400?text=Second slide&bg=282c34"
-      alt="Third slide"
-    />
+              
+              <h4>Cities</h4>
 
-    <Carousel.Caption>
-      <h3>Second slide label</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src="holder.js/800x400?text=Third slide&bg=20232a"
-      alt="Third slide"
-    />
+              <button>Search</button><input  type="text" id="searchbar" placeholder="Search" onChange={ e=> this.searchFunction(e)} ></input>
 
-    <Carousel.Caption>
-      <h3>Third slide label</h3>
-      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-    </Carousel.Caption>
-  </Carousel.Item>
-</Carousel>
+
+
+<Container style={{width:'80%', marginTop:'10px'}}>{this.props.cities.map((city)=>{return(
+  <div>
+  {(city.name.toUpperCase()).includes(this.state.value.toUpperCase()) || (city.country.toUpperCase()).includes(this.state.value.toUpperCase()) ?
+  
+  <Row style={{margin: '5px',padding:'20px',backgroundImage: `url(${city.img})`, backgroundSize:'cover', backgroundPosition: 'center', color:'white'}}>
+    <Col>
+    <Row >
+      <Col >
+      {city.name}
+      </Col>
+    </Row>
+    
+    <Row style={{fontSize:'12px', marginTop:'-7px', }}>
+   <Col >   {city.country}</Col>
+    </Row>
+    </Col></Row> : null}</div>)
+})}
+  
+</Container>
+
+
+
             </div>
         )
     }
 }
+/* function searcbarFilter(){
+  if(this.props.cities.name === ){}
+}
+ */
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+      cities: state.city.cities
+  }
+};
+
+const mapDispatchToProps = dispatch => ({
+  fetchCities: () => dispatch(fetchCities)
+});
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(cities);

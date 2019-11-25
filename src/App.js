@@ -3,22 +3,22 @@ import './App.css';
 import { HashRouter, Route} from 'react-router-dom';
 import Landing from "./Landing";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LogInBar from './LogInBar';
+import SignIn from './SignIn'
 import cities from './cities';
-import registerPage from './registerPage';
+import SignUp from './SignUp';
 import {connect} from 'react-redux';
-import Navbar from './componentNavbar';
+import NavbarComp from './componentNavbar';
 
 class App extends Component {
   render() {
     return (
       <div className="App">  
       <HashRouter>
-      <Navbar/>
+      <NavbarComp/>
       <div><Route exact path="/"component={Landing} /></div>
-      <div><Route path="/loginYo" component={LogInBar}/></div>
+      <div><Route path="/signin" component={SignIn}/></div>
       <div><Route path="/cities" component={cities}/></div>
-      <div><Route path="/registerPage" component={registerPage}/></div>
+      <div><Route path="/signup" component={SignUp}/></div>
       </HashRouter>
       </div>
     );
